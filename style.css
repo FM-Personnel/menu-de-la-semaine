@@ -144,7 +144,9 @@ body {
   background: var(--white);
   border: 1px solid var(--border);
   border-radius: 16px;
-  overflow: hidden;
+  /* no overflow:hidden here on purpose — it would clip the suggestions
+     dropdown, which is taller than the row itself. Rounded corners on
+     the day-label (below) achieve the same look without clipping. */
   box-shadow: var(--shadow-sm);
   transition: box-shadow 0.15s ease, border-color 0.15s ease;
 }
@@ -165,6 +167,8 @@ body {
   gap: 4px;
   padding: 10px 6px;
   border-right: 1px solid var(--border);
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
 }
 
 .day-row.today .day-label {
