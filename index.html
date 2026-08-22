@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Qu'est-ce qu'on mange ?</title>
+<meta name="description" content="Calendrier hebdomadaire de repas — Menu de la semaine">
+<meta name="theme-color" content="#8A6F4E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Menu semaine">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="page">
+
+  <header class="header">
+    <div class="header-top">
+      <div>
+        <p class="eyebrow">Menu de la semaine</p>
+        <h1 class="title">Qu'est-ce qu'on mange&nbsp;?</h1>
+      </div>
+      <span id="statusBadge" class="status-badge" aria-live="polite"></span>
+    </div>
+    <div class="week-nav">
+      <button id="prevWeek" class="nav-btn" aria-label="Semaine précédente">←</button>
+      <div class="week-label">
+        <span id="weekTitle"></span>
+        <span id="weekDates" class="week-dates"></span>
+      </div>
+      <button id="nextWeek" class="nav-btn" aria-label="Semaine suivante">→</button>
+    </div>
+  </header>
+
+  <div id="grid" class="grid"></div>
+
+  <p id="emptyHint" class="empty-hint" hidden>
+    Touche une case pour écrire un plat, ou choisis-en un dans tes plats récents.
+  </p>
+
+  <div id="historySection" class="history-section" hidden>
+    <p class="history-title">Tes plats (<span id="historyCount">0</span>)</p>
+    <div id="historyChips" class="history-chips"></div>
+  </div>
+
+</div>
+
+<div id="toast" class="toast" hidden></div>
+
+<script src="app.js"></script>
+</body>
+</html>
