@@ -288,6 +288,32 @@ body {
   cursor: default;
 }
 
+.backup-section {
+  margin-top: 20px;
+  padding-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.backup-link {
+  font-size: 12.5px;
+  color: var(--muted);
+  text-decoration: underline;
+  text-decoration-color: var(--border);
+  text-underline-offset: 2px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: inherit;
+  padding: 4px 2px;
+}
+.backup-link:hover { color: var(--accent-dark); }
+
+.backup-sep { font-size: 12.5px; color: var(--border); }
+
 .toast {
   position: fixed;
   bottom: max(24px, env(safe-area-inset-bottom));

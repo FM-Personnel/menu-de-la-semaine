@@ -429,6 +429,68 @@
     });
   }
 
+  // ---------- backup (export / import, for switching devices) ----------
+
+  var WEEK_KEY_RE = /^menuweek-\d{4}-\d{2}-\d{2}$/;
+
+  function exportData() {
+    var data = { exportedAt: new Date().toISOString(), history: loadJSON(HISTORY_KEY, []), weeks: {} };
+    Object.keys(localStorage).forEach(function (k) {
+      if (WEEK_KEY_RE.test(k)) data.weeks[k] = loadJSON(k, {});
+    });
+    var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'menu-semaine-sauvegarde-' + new Date().toISOString().slice(0, 10) + '.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+    showToast('Sauvegarde téléchargée');
+  }
+
+  function importData(file) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      var data;
+      try {
+        data = JSON.parse(e.target.result);
+      } catch (err) {
+        showToast('Fichier de sauvegarde invalide');
+        return;
+      }
+      var weekCount = 0;
+      if (data && typeof data.weeks === 'object' && data.weeks) {
+        Object.keys(data.weeks).forEach(function (k) {
+          if (WEEK_KEY_RE.test(k)) { saveJSON(k, data.weeks[k]); weekCount++; }
+        });
+      }
+      if (data && Array.isArray(data.history)) {
+        saveJSON(HISTORY_KEY, data.history);
+        state.history = data.history;
+      }
+      if (!weekCount && !(data && Array.isArray(data.history))) {
+        showToast('Fichier de sauvegarde invalide');
+        return;
+      }
+      loadWeek();
+      render();
+      showToast('Sauvegarde restaurée ✓');
+    };
+    reader.onerror = function () { showToast('Échec de la lecture du fichier'); };
+    reader.readAsText(file);
+  }
+
+  els.exportBtn = document.getElementById('exportBtn');
+  els.importFile = document.getElementById('importFile');
+  els.exportBtn.addEventListener('click', exportData);
+  els.importFile.addEventListener('change', function (e) {
+    var file = e.target.files && e.target.files[0];
+    if (file) importData(file);
+    e.target.value = '';
+  });
+
   // ---------- navigation ----------
 
   els.prevWeek.addEventListener('click', function () {
