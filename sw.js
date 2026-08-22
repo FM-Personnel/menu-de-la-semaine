@@ -1,5 +1,5 @@
 // Bump this whenever any cached file changes, so clients pick up the update.
-var CACHE_NAME = 'menu-semaine-v2';
+var CACHE_NAME = 'menu-semaine-v3';
 
 var APP_SHELL = [
   './',

@@ -3,7 +3,7 @@
 
   var DAYS = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
   var MEALS = ['dejeuner', 'diner'];
-  var MEAL_LABELS = { dejeuner: 'Déjeuner', diner: 'Dîner' };
+  var MEAL_LABELS = { dejeuner: '☀️ Déjeuner', diner: '🌙 Dîner' };
   var HISTORY_KEY = 'menuweek-dish-history';
   var HISTORY_LIMIT = 60;
 
@@ -242,13 +242,20 @@
     renderHistory();
   }
 
+  function todayIndex() {
+    if (state.weekOffset !== 0) return -1;
+    var d = new Date().getDay(); // 0 = Sunday
+    return d === 0 ? 6 : d - 1; // Monday-first index into DAYS
+  }
+
   function renderGrid() {
     els.grid.innerHTML = '';
     var anyValue = false;
+    var todayIdx = todayIndex();
 
-    DAYS.forEach(function (day) {
+    DAYS.forEach(function (day, dayIdx) {
       var dayRow = document.createElement('div');
-      dayRow.className = 'day-row';
+      dayRow.className = 'day-row' + (dayIdx === todayIdx ? ' today' : '');
 
       var dayLabel = document.createElement('div');
       dayLabel.className = 'day-label';
@@ -256,6 +263,12 @@
       dayName.className = 'day-name';
       dayName.textContent = day;
       dayLabel.appendChild(dayName);
+      if (dayIdx === todayIdx) {
+        var pill = document.createElement('span');
+        pill.className = 'today-pill';
+        pill.textContent = "Aujourd'hui";
+        dayLabel.appendChild(pill);
+      }
       dayRow.appendChild(dayLabel);
 
       var mealCells = document.createElement('div');
